@@ -1,4 +1,4 @@
-package com.example.h.learn;
+package com.example.h.learn.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.h.learn.MySingleton;
+import com.example.h.learn.R;
 
 public class VolleyActivity extends AppCompatActivity  implements View.OnClickListener{
 

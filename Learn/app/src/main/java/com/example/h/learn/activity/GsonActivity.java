@@ -1,4 +1,4 @@
-package com.example.h.learn;
+package com.example.h.learn.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.example.h.learn.MySpinnerAdapter;
+import com.example.h.learn.R;
 import com.example.h.learn.bean.Record;
 import com.example.h.learn.bean.User;
 import com.google.gson.Gson;

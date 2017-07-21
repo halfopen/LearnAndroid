@@ -21,7 +21,7 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,14 +29,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ShareActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".activity.ShareActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".VolleyActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".GsonActivity"
+            android:name=".activity.VolleyActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.GsonActivity"
             android:label="使用Gson获取签到记录"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:parentActivityName=".activity.MainActivity"
+            android:label="使用fragment"
+            android:name=".activity.FragmentActivity" />
     </application>
 
 </manifest>

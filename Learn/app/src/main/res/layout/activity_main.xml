@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.h.learn.MainActivity">
+    tools:context="com.example.h.learn.activity.MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
         <Button
             android:id="@+id/btn_share"
             android:text="@string/share"
@@ -24,6 +26,11 @@
         <Button
             android:id="@+id/btn_gson"
             android:text="Gson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_fragment"
+            android:text="Fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.h.learn;
+package com.example.h.learn.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ShareActionProvider;
+
+import com.example.h.learn.R;
 
 public class ShareActivity extends AppCompatActivity implements View.OnClickListener {
 

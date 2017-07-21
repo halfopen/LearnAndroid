@@ -4,26 +4,28 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="refresh">"刷新"</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_login">登陆信息系统</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="prompt_email">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">确认</string>
+    <string name="action_sign_in_short">确认</string>
+
+    <string name="error_incorrect_password">密码错误</string>
+    <string name="error_field_required">请填写完整</string>
+
 
     <!--api列表-->
     <string name="get_record_api">"http://cscw.fudan.edu.cn/CISWORK/php/getRecord.php"</string>
     <string name="get_names_api">"http://cscw.fudan.edu.cn/CISWORK/php/getUsernames.php"</string>
+    <string name="get_status_api">"http://cscw.fudan.edu.cn/CISWORK/php/getStatusForWin.php</string>
+    <!--签入签出-->
+    <string name="sign_api">"http://10.131.200.20/CISWORK/php/signForWin.php"</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!---->
+    <string name="preference_userdata_key">USER_DATA</string>
+
 </resources>

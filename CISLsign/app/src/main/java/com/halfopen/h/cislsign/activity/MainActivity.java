@@ -1,17 +1,37 @@
 package com.halfopen.h.cislsign.activity;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.halfopen.h.cislsign.R;
 import com.halfopen.h.cislsign.view.SignView;
 
@@ -19,6 +39,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SignView sv;
+    String username="";
+    String password = "";
+    String userid="";
+    SharedPreferences sharedPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +52,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,14 +62,40 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        sv = (SignView) findViewById(R.id.sign_view);
 
+        //签到按钮
+        sv = (SignView) findViewById(R.id.sign_view);
+        //绑定点击事件
         sv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sign(!sv.isSign());
                 sv.change();
             }
         });
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("信息系统")    //通知标题
+                        .setContentText("请及时签出");   //通知详情
+        //点击通知跳转的activity
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        //
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        //发布通知
+        mNotifyMgr.notify(110, mBuilder.build());
     }
 
     @Override
@@ -62,6 +105,8 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            this.finish();
+            System.exit(0);
         }
     }
 
@@ -73,6 +118,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        sharedPref = getSharedPreferences(getString(R.string.preference_userdata_key), Context.MODE_PRIVATE);
+        username= sharedPref.getString("username","");
+        password = sharedPref.getString("password", "");
+        if(TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
+            startActivity(new Intent(this, LoginActivity.class));
+            super.onResume();
+        }else {
+            //检查状态
+            checkSign(username, password);
+
+            super.onResume();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -81,6 +142,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Log.d("flag--","onOptionsItemSelected(MainActivity.java:144)-->>"+"refresh");
+            checkSign(username,password);
             return true;
         }
 
@@ -93,10 +156,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-
-        } else if (id == R.id.nav_gallery) {
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//
+//        } else
+        if (id == R.id.nav_gallery) {
             startActivity(new Intent(this, SignRecordActivity.class));
 //        } else if (id == R.id.nav_slideshow) {
 //
@@ -112,5 +176,82 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void sign(Boolean bflag){
+        String flag=bflag?"1":"0";
+        //建立缓存
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
+
+        //
+        Network network = new BasicNetwork(new HurlStack());
+
+        RequestQueue rQueue = new RequestQueue(cache, network);
+
+        rQueue.start();
+
+        String url = getString(R.string.sign_api)+"?userid="+this.userid+"&signflag="+flag;
+        Log.d("flag--","sign(MainActivity.java:192)-->>"+url);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+
+                Log.d("flag--","onResponse(MainActivity.java:190)-->>"+response);
+
+                sv.refresh();
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        rQueue.add(stringRequest);
+    }
+
+    //检测签入状态
+    public void checkSign(String username, String password){
+        //建立缓存
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
+
+        //
+        Network network = new BasicNetwork(new HurlStack());
+
+        RequestQueue rQueue = new RequestQueue(cache, network);
+
+        rQueue.start();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getString(R.string.get_status_api)+"?username="+username+"&password="+password, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                JsonParser parse =new JsonParser();  //创建json解析器
+                JsonObject json=(JsonObject) parse.parse(response);
+                Log.d("flag--","onResponse(MainActivity.java:190)-->>"+json.get("result").getAsString());
+                Log.d("flag--","onResponse(MainActivity.java:191)-->>"+json.get("signflag").getAsString());
+                if (json.get("signflag").getAsString().equals("1")){
+                    sv.setSign(true);
+                }else{
+                    sv.setSign(false);
+                }
+                userid=json.get("userid").getAsString();
+                SharedPreferences.Editor editor = sharedPref.edit();
+                //保存数据
+                editor.putString("userid", userid);
+                editor.commit();
+                sv.refresh();
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        rQueue.add(stringRequest);
+
     }
 }

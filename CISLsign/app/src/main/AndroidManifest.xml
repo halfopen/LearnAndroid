@@ -28,6 +28,7 @@
             android:label="签到记录"
             android:parentActivityName=".activity.MainActivity"/>
         <activity
+            android:parentActivityName=".activity.MainActivity"
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"></activity>
     </application>

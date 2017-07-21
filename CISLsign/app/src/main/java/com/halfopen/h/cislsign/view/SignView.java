@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -25,7 +26,24 @@ public class SignView extends View {
     // 刻度经过角度范围
     private float targetAngle = 300;
 
+    public boolean isSign() {
+        return isSign;
+    }
+
+    public void setSign(boolean sign) {
+        isSign = sign;
+    }
+
     private boolean isSign=false;
+
+
+
+    public void refresh(){
+        Log.d("flag--","refresh(SignView.java:42)-->>"+this.isSign);
+        postInvalidate();
+
+    }
+
     /**
      * 用来初始化画笔等
      * @param context
@@ -78,7 +96,7 @@ public class SignView extends View {
         //画刻度线的方法
         drawViewLine(canvas);
         //画文字
-        //drawScoreText(canvas);
+        drawScoreText(canvas);
     }
 
     private void drawViewLine(Canvas canvas) {
@@ -125,6 +143,7 @@ public class SignView extends View {
 
     public void change(){
         isSign = !isSign;
+
         postInvalidate();
     }
 
@@ -135,8 +154,9 @@ public class SignView extends View {
     private void drawScoreText(Canvas canvas) {
         //先绘制一个小圆
         Paint smallPaint = new Paint();
-        smallPaint.setAlpha(50);
-        smallPaint.setARGB(50, 236, 241, 243);
+        //smallPaint.setAlpha(50);
+        if(isSign)smallPaint.setARGB(50, 236, 241, 243);
+        else smallPaint.setARGB(50,0,250,0);
         // 画小圆指定圆心坐标，半径，画笔即可
         int smallRadius=radius-60;
         canvas.drawCircle(radius, radius, radius - 60, smallPaint);
@@ -147,8 +167,8 @@ public class SignView extends View {
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(smallRadius/2);
         //score需要通过计算得到
-        if(isSign)canvas.drawText("签入",radius,radius,textPaint);
-        else canvas.drawText("签出",radius,radius,textPaint);
+        if(isSign)canvas.drawText("签出",radius,radius,textPaint);
+        else canvas.drawText("签入",radius,radius,textPaint);
 //        //绘制分，在分数的右上方
 //        textPaint.setTextSize(smallRadius/6);
 //        canvas.drawText("分",radius+smallRadius/2,radius-smallRadius/4,textPaint);

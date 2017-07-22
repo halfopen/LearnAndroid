@@ -4,21 +4,37 @@
     android:layout_height="wrap_content"
     android:id="@+id/record_listitem"
     android:layout_width="match_parent"
-    android:background="@drawable/left_list_bg"
+    android:background="@drawable/record_list_bg"
     android:paddingBottom="3dip"
     android:paddingRight="1dp"
     android:paddingLeft="10dip">
-    <TextView
-        android:text="用户名"
-        android:textColor="@android:color/holo_blue_light"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/ItemTitle"
-        android:textSize="20dip">
-    </TextView>
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="用户名"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/ItemTitle"
+            android:layout_weight="1"
+            android:textSize="20dip"/>
+        <TextView
+            android:text="签入"
+            android:textColor="@android:color/holo_green_light"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/ItemAction"
+            android:paddingRight="5dp"
+            android:textSize="15dip">
+        </TextView>
+    </LinearLayout>
     <TextView
         android:text="时间"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/darker_gray"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/ItemText">

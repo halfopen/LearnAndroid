@@ -149,14 +149,15 @@ public class SignRecordActivity extends AppCompatActivity {
                             ) {
                         Log.i("datainfo", r.getZh_name() + " " + r.getSignflag() + " " + r.getTimestamp());
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("ItemTitle", r.getZh_name() + " " + r.getSignflag());
+                        map.put("ItemTitle", r.getZh_name());
+                        map.put("ItemAction", r.getSignflag());
                         map.put("ItemText", r.getTimestamp());
                         mylist.add(map);
                     };
                     //生成适配器，数组===》ListItem
                     SimpleAdapter mSchedule = new SimpleAdapter(getApplicationContext(), mylist, R.layout.record_listitem,
-                            new String[] {"ItemTitle", "ItemText"},
-                            new int[] {R.id.ItemTitle,R.id.ItemText});
+                            new String[] {"ItemTitle", "ItemText", "ItemAction"},
+                            new int[] {R.id.ItemTitle,R.id.ItemText, R.id.ItemAction});
                     //添加并且显示
                     recordListView.setAdapter(mSchedule);
                 }catch (NullPointerException e){
@@ -177,6 +178,7 @@ public class SignRecordActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("datainfo", error.toString());
+                Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
 

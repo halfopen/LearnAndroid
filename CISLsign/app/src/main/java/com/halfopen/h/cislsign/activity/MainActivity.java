@@ -39,6 +39,8 @@ import com.halfopen.h.cislsign.view.SignView;
 
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //抽屉
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         //点击通知跳转的activity
         Intent resultIntent = new Intent(this, MainActivity.class);
         //
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -98,10 +101,15 @@ public class MainActivity extends AppCompatActivity
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         mBuilder.setContentIntent(resultPendingIntent);
+
         //发布通知
         mNotifyMgr.notify(110, mBuilder.build());
 
         this.startService(new Intent(this, TimeService.class));
+        
+        //极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     /**
@@ -252,25 +260,29 @@ public class MainActivity extends AppCompatActivity
         RequestQueue rQueue = new RequestQueue(cache, network);
 
         rQueue.start();
-
+        Log.d("flag--","checkSign(MainActivity.java:255)-->>"+getString(R.string.get_status_api)+"?username="+username+"&password="+password);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, getString(R.string.get_status_api)+"?username="+username+"&password="+password, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                JsonParser parse =new JsonParser();  //创建json解析器
-                JsonObject json=(JsonObject) parse.parse(response);
-                Log.d("flag--","onResponse(MainActivity.java:190)-->>"+json.get("result").getAsString());
-                Log.d("flag--","onResponse(MainActivity.java:191)-->>"+json.get("signflag").getAsString());
-                if (json.get("signflag").getAsString().equals("1")){
-                    sv.setSign(true);
-                }else{
-                    sv.setSign(false);
+                try {
+                    JsonParser parse = new JsonParser();  //创建json解析器
+                    JsonObject json = (JsonObject) parse.parse(response);
+                    Log.d("flag--", "onResponse(MainActivity.java:190)-->>" + json.get("result").getAsString());
+                    Log.d("flag--", "onResponse(MainActivity.java:191)-->>" + json.get("signflag").getAsString());
+                    if (json.get("signflag").getAsString().equals("1")) {
+                        sv.setSign(true);
+                    } else {
+                        sv.setSign(false);
+                    }
+                    userid = json.get("userid").getAsString();
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    //保存数据
+                    editor.putString("userid", userid);
+                    editor.commit();
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "解析失败", Toast.LENGTH_SHORT);
                 }
-                userid=json.get("userid").getAsString();
-                SharedPreferences.Editor editor = sharedPref.edit();
-                //保存数据
-                editor.putString("userid", userid);
-                editor.commit();
                 sv.refresh();
             }
         }, new Response.ErrorListener(){

@@ -25,6 +25,8 @@
     <!--签入签出-->
     <string name="sign_api">"http://10.131.200.20/CISWORK/php/signForWin.php"</string>
 
+    <string name="web_socket_address">"ws://192.168.191.1:9000"</string>
+
     <!---->
     <string name="preference_userdata_key">USER_DATA</string>
 

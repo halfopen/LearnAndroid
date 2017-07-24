@@ -1,5 +1,7 @@
 package com.halfopen.h.cislsign;
 
+import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.java_websocket.client.WebSocketClient;
@@ -16,14 +18,16 @@ public class MyWebSocketClient {
 
     //WebSocketClient 和 address
     private WebSocketClient mWebSocketClient;
-    private String address = "ws://192.168.191.1:9000";
-
+    private String address;
+    private Context context;
 
     /**
      * 初始化WebSocketClient
      * @throws URISyntaxException
      */
     private void initSocketClient() throws URISyntaxException {
+        context = MyApplication.getContext();
+        address = context.getResources().getString(R.string.web_socket_address);
         if(mWebSocketClient == null) {
             mWebSocketClient = new WebSocketClient(new URI(address)) {
                 @Override

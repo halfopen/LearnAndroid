@@ -60,8 +60,8 @@ public class SignRecordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "开始刷新", Toast.LENGTH_SHORT).show();
             new Thread(()->{
                 getRecord(userId);
-            });
-            swapRefreshLayout.setRefreshing(false);
+            }).start();
+            //swapRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -146,8 +146,6 @@ public class SignRecordActivity extends AppCompatActivity {
                     List<Record> recordList = gson.fromJson(json.get("data").getAsJsonArray().toString(), new TypeToken<List<Record>>() {
                     }.getType());
 
-
-
                     //生成动态数组，并且转载数据
                     ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
                     for (Record r : recordList
@@ -176,19 +174,16 @@ public class SignRecordActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "无记录", Toast.LENGTH_SHORT).show();
                 }finally {
                     swapRefreshLayout.setRefreshing(false);
+                    Log.d("flag--","onResponse(SignRecordActivity.java:179)-->>"+"刷新完成");
                     Toast.makeText(getApplicationContext(), "刷新完成", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, (error) ->{
                 Log.i("datainfo", error.toString());
                 Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
-                swapRefreshLayout.setRefreshing(false);
+
             }
-        });
+        );
 
         //把请求添加到队列
         rQueue.add(stringRequest);

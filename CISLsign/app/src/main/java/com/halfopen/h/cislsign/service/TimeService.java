@@ -28,8 +28,8 @@ public class TimeService extends Service{
         Log.d("flag--","onCreate(TimeService.java:27)-->>");
         super.onCreate();
         mFilter = new IntentFilter();
-        mFilter.addAction(Intent.ACTION_TIME_TICK); //每分钟变化的action
-        mFilter.addAction(Intent.ACTION_TIME_CHANGED); //设置了系统时间的action
+        mFilter.addAction(Intent.ACTION_TIME_TICK);     //每分钟变化的action
+        mFilter.addAction(Intent.ACTION_TIME_CHANGED);  //设置了系统时间的action
         mTickReceiver = new TimeTickReceiver();
         registerReceiver(mTickReceiver, mFilter);
     }

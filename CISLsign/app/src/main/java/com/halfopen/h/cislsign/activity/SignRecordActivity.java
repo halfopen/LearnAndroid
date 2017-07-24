@@ -1,6 +1,7 @@
 package com.halfopen.h.cislsign.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +25,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.halfopen.h.cislsign.MySpinnerAdapter;
 import com.halfopen.h.cislsign.R;
+import com.halfopen.h.cislsign.adapter.MySpinnerAdapter;
+import com.halfopen.h.cislsign.adapter.RecordListAdapter;
 import com.halfopen.h.cislsign.bean.Record;
 import com.halfopen.h.cislsign.bean.User;
 
@@ -39,6 +41,8 @@ public class SignRecordActivity extends AppCompatActivity {
     private String getUsernamesApi;
     private Spinner spinner;
     private ListView recordListView;
+    private SwipeRefreshLayout swapRefreshLayout;
+    private String userId="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,16 @@ public class SignRecordActivity extends AppCompatActivity {
         getUsernamesApi = getString(R.string.get_names_api);
         spinner = (Spinner) findViewById(R.id.names_spinner);
         recordListView = (ListView) findViewById(R.id.record_listview);
+        swapRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swapRefreshLayout);
 
+        swapRefreshLayout.setOnRefreshListener(()->{
 
+            Toast.makeText(getApplicationContext(), "开始刷新", Toast.LENGTH_SHORT).show();
+            new Thread(()->{
+                getRecord(userId);
+            });
+            swapRefreshLayout.setRefreshing(false);
+        });
     }
 
     @Override
@@ -70,9 +82,7 @@ public class SignRecordActivity extends AppCompatActivity {
 
         rQueue.start();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, getUsernamesApi, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getUsernamesApi, (response) ->{
                 Log.i("datainfo", response);
                 Gson gson = new Gson();
                 JsonParser parse =new JsonParser();  //创建json解析器
@@ -96,7 +106,7 @@ public class SignRecordActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Log.i("datainfo", "click"+id);
-                        String userId = id+"";
+                        userId = id+"";
                         Log.i("datainfo", "url"+getRecordApi+"?userid="+userId);
                         getRecord(userId);
                     }
@@ -106,13 +116,8 @@ public class SignRecordActivity extends AppCompatActivity {
 
                     }
                 });
-            }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("datainfo", error.toString());
-            }
-        });
+        },(error)->Log.i("datainfo", error.toString())
+        );
 
         //把请求添加到队列
         rQueue.add(stringRequest);
@@ -155,9 +160,7 @@ public class SignRecordActivity extends AppCompatActivity {
                         mylist.add(map);
                     };
                     //生成适配器，数组===》ListItem
-                    SimpleAdapter mSchedule = new SimpleAdapter(getApplicationContext(), mylist, R.layout.record_listitem,
-                            new String[] {"ItemTitle", "ItemText", "ItemAction"},
-                            new int[] {R.id.ItemTitle,R.id.ItemText, R.id.ItemAction});
+                    RecordListAdapter mSchedule = new RecordListAdapter(getApplicationContext(), mylist);
                     //添加并且显示
                     recordListView.setAdapter(mSchedule);
                 }catch (NullPointerException e){
@@ -171,7 +174,11 @@ public class SignRecordActivity extends AppCompatActivity {
                     //添加并且显示
                     recordListView.setAdapter(mSchedule);
                     Toast.makeText(getApplicationContext(), "无记录", Toast.LENGTH_SHORT).show();
+                }finally {
+                    swapRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getApplicationContext(), "刷新完成", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         }, new Response.ErrorListener(){
@@ -179,6 +186,7 @@ public class SignRecordActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.i("datainfo", error.toString());
                 Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
+                swapRefreshLayout.setRefreshing(false);
             }
         });
 

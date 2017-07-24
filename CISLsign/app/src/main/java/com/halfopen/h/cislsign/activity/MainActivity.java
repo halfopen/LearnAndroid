@@ -18,7 +18,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -73,12 +72,9 @@ public class MainActivity extends AppCompatActivity
         //签到按钮
         sv = (SignView) findViewById(R.id.sign_view);
         //绑定点击事件
-        sv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sign(!sv.isSign());
-                sv.change();
-            }
+        sv.setOnClickListener(v->{
+            sign(!sv.isSign());
+            sv.change();
         });
 
         NotificationCompat.Builder mBuilder =

@@ -58,12 +58,7 @@ public class MyWebSocketClient {
 
     //连接
     private void connect() {
-        new Thread(){
-            @Override
-            public void run() {
-                mWebSocketClient.connect();
-            }
-        }.start();
+        new Thread(()->mWebSocketClient.connect()).start();
     }
 
 

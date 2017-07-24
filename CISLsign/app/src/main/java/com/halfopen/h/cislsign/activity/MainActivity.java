@@ -33,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.halfopen.h.cislsign.R;
+import com.halfopen.h.cislsign.service.MQTTService;
 import com.halfopen.h.cislsign.service.TimeService;
 import com.halfopen.h.cislsign.view.SignView;
 
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity
         //极光推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+
+        startService(new Intent(this, MQTTService.class));
     }
 
     /**

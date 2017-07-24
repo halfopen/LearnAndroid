@@ -91,6 +91,9 @@
             </intent-filter>
         </service>
 
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service android:name="com.halfopen.h.cislsign.service.MQTTService"/>
+
 
 
         <!-- Required SDK核心功能-->

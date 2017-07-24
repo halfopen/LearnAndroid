@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v21\\notification_action.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v21\\notification_template_icon_group.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v21\\notification_action_tombstone.xml"
+    }
+]

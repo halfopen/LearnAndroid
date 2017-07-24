@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_media_action.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_cancel_action.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_template_big_media.xml"
+    },
+    {
+        "merged": "D:\\LearnAndroid\\Push\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow_custom.xml",
+        "source": "C:\\Users\\h\\.android\\build-cache\\dd25f2c5245a4785191dd50b42750cf44c88802f\\output\\res\\layout-v11\\notification_template_big_media_narrow_custom.xml"
+    }
+]

@@ -63,4 +63,7 @@ dependencies {
 
     compile 'com.bilibili:magicasakura:0.1.6@aar'
 
+    //Event Bus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
 }

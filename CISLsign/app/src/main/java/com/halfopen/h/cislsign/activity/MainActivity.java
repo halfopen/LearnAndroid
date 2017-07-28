@@ -1,14 +1,11 @@
 package com.halfopen.h.cislsign.activity;
 
 import android.app.ActivityManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -77,30 +74,6 @@ public class MainActivity extends AppCompatActivity
             sign(!sv.isSign());
             sv.change();
         });
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("信息系统")    //通知标题
-                        .setContentText("请及时签出");   //通知详情
-        //点击通知跳转的activity
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        //
-        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-
-        NotificationManager mNotifyMgr =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        //发布通知
-        mNotifyMgr.notify(110, mBuilder.build());
 
         this.startService(new Intent(this, TimeService.class));
         

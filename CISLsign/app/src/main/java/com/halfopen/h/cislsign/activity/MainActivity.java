@@ -164,21 +164,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//
-//        } else
         if (id == R.id.nav_gallery) {
             startActivity(new Intent(this, SignRecordActivity.class));
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-          } else if (id == R.id.user_settings) {
-
+        } else if (id == R.id.user_settings) {
             startActivity(new Intent(this, LoginActivity.class));
-//        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -200,7 +189,8 @@ public class MainActivity extends AppCompatActivity
 
         String url = getString(R.string.sign_api)+"?userid="+this.userid+"&signflag="+flag;
         Log.d("flag--","sign(MainActivity.java:192)-->>"+url);
-        StringRequest stringRequest = new StringRequest(
+        StringRequest stringRequest;
+        stringRequest = new StringRequest(
                 Request.Method.GET,
                 url,
                 new Response.Listener<String>(){
@@ -251,17 +241,14 @@ public class MainActivity extends AppCompatActivity
                     SharedPreferences.Editor editor = sharedPref.edit();
                     //保存数据
                     editor.putString("userid", userid);
-                    editor.commit();
+                    editor.apply();
                 }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "解析失败", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "解析失败", Toast.LENGTH_SHORT).show();
                 }
                 sv.refresh();
             }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, (error) ->{
                 Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
-            }
         });
         rQueue.add(stringRequest);
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+</head>
+<body>
+    <script>
+        function showEditInfo(str){
+            alert(str);
+        };
+        function callNative()
+        {
+            var str=document.getElementById("mytext").value;
+            window.webview.actionFromJsWithParam(str);
+        };
+        //alert(1);
+        showEditInfo('123');
+    </script>
+	<input type="text" value="123" name="mytext" id="mytext">
+	<button  onClick="callNative()">调用原生接口</button>
+
+
+</body>
+</html>

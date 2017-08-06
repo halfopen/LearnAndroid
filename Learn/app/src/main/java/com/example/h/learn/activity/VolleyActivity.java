@@ -1,6 +1,5 @@
 package com.example.h.learn.activity;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,10 +16,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.h.learn.MySingleton;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.h.learn.R;
 
 public class VolleyActivity extends AppCompatActivity  implements View.OnClickListener{
@@ -66,22 +68,25 @@ public class VolleyActivity extends AppCompatActivity  implements View.OnClickLi
     }
 
     private void getImageByUrl() {
-        Toast.makeText(getApplicationContext(), "开始加载图片", Toast.LENGTH_SHORT).show();
+        String image_url = "http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=http%3A%2F%2Fpic.962.net%2Fup%2F2014-4%2F2014043015462944035.jpg&thumburl=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D3323231745%2C3304164027%26fm%3D26%26gp%3D0.jpg";
+        String imamge_url_thumb = "http://www.100eshu.com/uploads/MemberPrepareEbook/ba11c930-1dbf-4cfe-a33d-8f9cc5a3b818_online/OEBPS/images/cover_thumb.jpg";
+
+        //http://www.100eshu.com/uploads/MemberPrepareEbook/ba11c930-1dbf-4cfe-a33d-8f9cc5a3b818_online/OEBPS/images/cover_Thumb.jpg
         String url = "http://i.imgur.com/7spzG.png";
-        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener(){
-                @Override
-                public void onResponse(Object response) {
-                    imageView.setImageBitmap((Bitmap)response);
-                    Toast.makeText(getApplicationContext(), "加载成功", Toast.LENGTH_SHORT).show();
-                }
-            },0,0,null, new Response.ErrorListener(){
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "加载失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        );
-        MySingleton.getInstance(this).addToRequestQueue(imageRequest);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher)
+                .priority(Priority.HIGH)
+
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
+        Glide.with(this).
+                load(image_url).
+                thumbnail(0.1f).//缩略图
+                transition(new DrawableTransitionOptions().crossFade(500)).//动画
+                apply(options).
+                into(imageView);
+
     }
 
     private void sendRequestQueue() {

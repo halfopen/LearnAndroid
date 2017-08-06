@@ -54,7 +54,7 @@ public class MySpinnerAdapter extends BaseAdapter {
                     .findViewById(R.id.userId);
             TextView _TextView2 = (TextView) convertView
                     .findViewById(R.id.userName);
-            _TextView1.setText("用户id:"+userList.get(position).getUserid().toString());
+            _TextView1.setText("用户id:"+userList.get(position).getUserid());
             _TextView2.setText(userList.get(position).getZh_name());
         }
         return convertView;

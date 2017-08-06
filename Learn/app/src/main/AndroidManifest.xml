@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -39,9 +40,15 @@
             android:label="使用Gson获取签到记录"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:parentActivityName=".activity.MainActivity"
+            android:name=".activity.FragmentActivity"
             android:label="使用fragment"
-            android:name=".activity.FragmentActivity" />
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".ViewPagerHome" />
+        <activity android:name=".activity.GreenDaoActivity" />
+        <activity android:name=".RecyclerViewActivity" />
+        <activity android:name=".SlidePanelActivity" />
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".LayoutActivity"></activity>
     </application>
 
 </manifest>

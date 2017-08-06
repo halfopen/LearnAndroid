@@ -16,7 +16,6 @@ import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
@@ -139,9 +138,11 @@ public class SignRecordActivity extends AppCompatActivity {
                 Log.i("datainfo", response);
                 Gson gson = new Gson();
                 JsonParser parse =new JsonParser();  //创建json解析器
-                JsonObject json=(JsonObject) parse.parse(response);
-                Log.i("datainfo", json.get("result").getAsString());
+
                 try {
+                    JsonObject json=(JsonObject) parse.parse(response);
+                    Log.i("datainfo", json.get("result").getAsString());
+
                     Log.i("datainfo", json.get("data").getAsJsonArray().toString());
                     List<Record> recordList = gson.fromJson(json.get("data").getAsJsonArray().toString(), new TypeToken<List<Record>>() {
                     }.getType());

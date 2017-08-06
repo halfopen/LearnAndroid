@@ -32,7 +32,10 @@ public class MyApplication extends Application{
         MyApplication.context = context;
     }
 
-
+    /**
+     *  发布通知
+     * @param message 通知内容
+     */
     public static  void notifySign(String message){
 
         Log.d("flag--","notifySign(TimeTickReceiver.java:70)-->>");

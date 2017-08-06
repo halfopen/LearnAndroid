@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class BlankFragment1 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View savedView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,13 +62,22 @@ public class BlankFragment1 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Log.d("flag--","onCreate(BlankFragment1.java:65)-->>");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank_fragment1, container, false);
+        //return inflater.inflate(R.layout.fragment_blank_fragment1, container, false);
+        if (savedView==null){
+            savedView = inflater.inflate(R.layout.fragment_blank_fragment1, container, false);
+        }
+        ViewGroup parent = (ViewGroup) savedView.getParent();
+        if(parent!=null){
+            parent.removeView(savedView);
+        }
+        return savedView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,7 +18,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets.main.jniLibs.srcDirs = ['libs']
 }
+
+// In your app projects build.gradle file:
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -25,12 +32,32 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':volley')
+    //GreenDao
+    // add library
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.google.code.gson:gson-parent:2.8.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.android.gms:play-services-plus:11.0.2'
+    compile 'com.google.android.gms:play-services-plus:11.0.4'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+    //compile 'com.android.support:multidex:1.0.1'
+    compile files('libs/60k-methods.jar')
+}
+
+
+greendao {
+    schemaVersion 1
+    //daoPackage 'com.greendao.gen'
+    //targetGenDir 'src/main/java'
 }

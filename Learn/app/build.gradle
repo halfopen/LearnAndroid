@@ -19,6 +19,10 @@ android {
         }
     }
 
+    dataBinding{
+        enabled=true
+    }
+
     sourceSets.main.jniLibs.srcDirs = ['libs']
 }
 
@@ -36,6 +40,8 @@ dependencies {
     // add library
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    //compile 'com.android.support:multidex:1.0.1'
+    compile files('libs/60k-methods.jar')
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -51,8 +57,6 @@ dependencies {
     compile 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
-    //compile 'com.android.support:multidex:1.0.1'
-    compile files('libs/60k-methods.jar')
 }
 
 

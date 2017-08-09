@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 R.id.btn_green_dao,
                 R.id.btn_slide_panel,
                 R.id.btn_web_view,
-                R.id.btn_layout
+                R.id.btn_layout,
+                R.id.btn_notification
         };
         //绑定点击事件
         for (int id:ids
@@ -115,6 +116,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             case R.id.btn_layout:
                 startActivity(new Intent(this, LayoutActivity.class));
                 break;
+            case R.id.btn_notification:
+                startActivity(new Intent(this, NotifycationActivity.class));
+                break;
+
             default:
         }
     }

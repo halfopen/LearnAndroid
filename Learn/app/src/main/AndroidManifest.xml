@@ -48,7 +48,8 @@
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".SlidePanelActivity" />
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".LayoutActivity"></activity>
+        <activity android:name=".LayoutActivity" />
+        <activity android:name=".activity.NotifycationActivity"></activity>
     </application>
 
 </manifest>

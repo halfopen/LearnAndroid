@@ -30,22 +30,21 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.halfopen.h.cislsign.R;
-import com.halfopen.h.cislsign.service.MQTTService;
 import com.halfopen.h.cislsign.service.TimeService;
 import com.halfopen.h.cislsign.view.SignView;
 
 import java.util.List;
 
-import cn.jpush.android.api.JPushInterface;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SignView sv;
-    String username="";
-    String password = "";
-    String userid="";
+    public static String username="";
+    public static String password = "";
+    public static String userid="";
     SharedPreferences sharedPref;
+
+     public static Boolean isSigned = false; //记录当前签入状态
 
 
     @Override
@@ -76,12 +75,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         this.startService(new Intent(this, TimeService.class));
-        
-        //极光推送
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
-
-        startService(new Intent(this, MQTTService.class));
     }
 
     /**
@@ -234,8 +227,10 @@ public class MainActivity extends AppCompatActivity
                     Log.d("flag--", "onResponse(MainActivity.java:191)-->>" + json.get("signflag").getAsString());
                     if (json.get("signflag").getAsString().equals("1")) {
                         sv.setSign(true);
+                        isSigned = true;
                     } else {
                         sv.setSign(false);
+                        isSigned=false;
                     }
                     userid = json.get("userid").getAsString();
                     SharedPreferences.Editor editor = sharedPref.edit();

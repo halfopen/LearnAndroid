@@ -6,7 +6,6 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.halfopen.h.cislsign.MyWebSocketClient;
 import com.halfopen.h.cislsign.receiver.TimeTickReceiver;
 
 /**
@@ -37,8 +36,6 @@ public class TimeService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("flag--","onStartCommand(TimeService.java:37)-->>"+"启动了服务");
-        MyWebSocketClient myWebSocketClient = new MyWebSocketClient();
-        myWebSocketClient.start();
         return Service.START_STICKY;
     }
 
